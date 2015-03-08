@@ -1,39 +1,28 @@
 <div data-ng-controller="IndexController">
 	<form name="studentForm" autocomplete="off" novalidate="novalidate" data-ng-submit="saveStudent()">
-		<input type="hidden" name="id" data-ng-model="student.id" ng-init="student.id=( studentInfo.id | default:0 )" data-ng-hidden-field />
-		<table>
-			<tr>
-				<td>
-					<label for="name">Name</label>
-					<td>
-						<input type="text" name="name" id="name" data-ng-model="student.name" value="{{ data | default:1 }}" />
-						<p data-ng-show="studentForm.name.$error.required">Name is required</p>
-					</td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="email">Email</label>
-					<td>
-						<input type="text" name="email" id="email" data-ng-model="student.email" value="{{ std.email | default:0 }}" />
-						<p data-ng-show="studentForm.name.$error.required">Email is required</p>
-					</td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="birthday">Birthday</label>
-					<td><input type="text" name="birthday" id="birthday" data-ng-model="student.birthday" /></td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="">&nbsp;</label>
-					<td>
-						<button type="submit">Submit</button>
-					</td>
-				</td>
-			</tr>
-		</table>
+		<input type="hidden" name="id" data-ng-model="student.id" data-ng-hidden-field />
+		<md-input-container>
+			<label>Student name</label>
+			<input md-maxlength="50" name="name" ng-model="student.name" />
+		</md-input-container>
+		<md-input-container>
+			<label>Student email</label>
+			<input name="email" ng-model="student.email" placeholder="youremail@domain.com" />
+		</md-input-container>
+		<md-input-container>
+			<label>Student birthday</label>
+			<input md-maxlength="10" name="birthday" ng-model="student.birthday" placeholder="YYYY-MM-DD" />
+		</md-input-container>
+		<md-input-container>
+			<label>Student information</label>
+			<textarea rows="7" name="info" ng-model="student.info" placeholder="User information"></textarea>
+		</md-input-container>
+		<md-input-container>
+			<label>Student image</label>
+			<input name="image" ng-model="student.image" />
+		</md-input-container>
+		<md-input-container>
+			<md-button type="submit" class="md-raised md-primary">Save</md-button>
+		</md-input-container>
 	</form>
 </div>

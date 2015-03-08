@@ -5,35 +5,56 @@ var studentMgmtApp;
 studentMgmtApp = angular.module('StudentManagementControllers', []);
 
 studentMgmtApp.controller('IndexController', [
-  '$scope', '$http', '$parse', function($scope, $http, $parse) {
-    var httpGetError, httpGetSuccess;
+  '$scope', '$http', '$parse', '$mdToast', '$routeParams', function($scope, $http, $parse, $mdToast, $routeParams) {
+    var httpGetError, httpGetSuccess, showToastMessage;
     $scope.students = {};
-    $scope.filter = {
-      by: 'id',
-      dir: true
-    };
-    $http.get('api/students.php').success(httpGetSuccess = function(response) {
-      if (Object.keys(response).length > 0) {
-        return $scope.students = response;
-      }
-    }).error(httpGetError = function(error) {
-      return console.log(error);
-    });
+    if ($routeParams.studentId) {
+      $http.get("api/students.php?action=student&id=" + $routeParams.studentId).success(httpGetSuccess = function(res) {
+        return $scope.student = res;
+      }).error(httpGetError = function(error) {
+        return console.log(error);
+      });
+    } else {
+      $http.get('api/students.php').success(httpGetSuccess = function(response) {
+        if (Object.keys(response).length > 0) {
+          return $scope.students = response;
+        }
+      }).error(httpGetError = function(error) {
+        return console.log(error);
+      });
+    }
     $scope.filterDirection = function() {
       var isDesc;
       isDesc = true;
       if ($scope.filter.dir === 'false') {
         isDesc = false;
       }
+      console.log('aaaa');
       return $scope.filter.dir = isDesc;
     };
-    return $scope.saveStudent = function() {
+    $scope.saveStudent = function() {
       var httpPostError, httpPostSuccess;
       return $http.post('api/students.php?action=save', $scope.student).success(httpPostSuccess = function(response) {
-        return console.log(response);
+        if (response.status !== false) {
+          showToastMessage(response.message);
+          if (!response.action) {
+            return $scope.student = {};
+          }
+        } else {
+          return showToastMessage("All fields is required");
+        }
       }).error(httpPostError = function(error) {
         return console.log(error);
       });
     };
+    return showToastMessage = function(message) {
+      return $mdToast.show($mdToast.simple().content(message).position('bottom left right').hideDelay(3000));
+    };
+  }
+]);
+
+studentMgmtApp.controller('StudentController', [
+  '$scope', function($scope) {
+    return console.log('OK');
   }
 ]);

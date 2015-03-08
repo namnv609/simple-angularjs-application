@@ -2,20 +2,39 @@
 'use strict';
 var studentMgmtApp;
 
-studentMgmtApp = angular.module('studentMgmtApp', ['ngRoute', 'StudentManagementControllers', 'filters', 'directives']);
+studentMgmtApp = angular.module('studentMgmtApp', ['ngRoute', 'ngAnimate', 'StudentManagementControllers', 'filters', 'directives', 'ngMaterial']);
 
 studentMgmtApp.config([
-  '$routeProvider', function($routeProvider) {
-    return $routeProvider.when('/', {
+  '$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
+    $routeProvider.when('/', {
       templateUrl: 'partials/index.html',
       controller: 'IndexController'
     }).when('/about', {
       templateUrl: 'partials/about.html'
     }).when('/add', {
-      templateUrl: 'partials/save.html',
-      data: '@@'
+      templateUrl: 'partials/save.html'
+    }).when('/edit/:studentId', {
+      controller: 'IndexController',
+      templateUrl: 'partials/save.html'
+    }).when('/students/:studentId', {
+      controller: 'StudentController',
+      templateUrl: 'partials/student-detail.html'
     }).otherwise({
       redirectTo: '/'
     });
+    return $mdThemingProvider.theme('default').primaryPalette('blue').accentPalette('green');
   }
 ]);
+
+studentMgmtApp.run(function($rootScope) {
+  $rootScope.$on('$routeChangeStart', function() {
+    var time;
+    time = new Date().getTime();
+    return console.log("Start: " + time);
+  });
+  return $rootScope.$on('$viewContentLoaded', function() {
+    var time;
+    time = new Date().getTime();
+    return console.log("Done: " + time);
+  });
+});

@@ -1,54 +1,18 @@
-<div data-ng-controller="IndexController">
-	<table>
-		<tr>
-			<td>
-				<label for="keyword">Keyword</label>
-			</td>
-			<td>
-				<input type="text" id="keyword" name="keyword" data-ng-model="keyword" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Filter
-			</td>
-			<td>
-				<select name="filterBy" data-ng-model="filter.by">
-					<option value="id">ID</option>
-					<option value="name">Name</option>
-					<option value="email">Email</option>
-					<option value="birthday">Birthday</option>
-				</select>
-				<select name="filterDir" data-ng-model="filter.dir" data-ng-change="filterDirection()">
-					<option value="true">Desc</option>
-					<option value="false">Asc</option>
-				</select>
-			</td>
-		</tr>
-	</table>
-	<!-- Bind controller to table -->
-	<table class="full-width">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Email</th>
-				<th>BOD</th>
-				<th>&nbsp;</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!-- Foreach student in students by repeat directive-->
-			<tr data-ng-repeat="student in students | filter:keyword | orderBy:filter.by:filter.dir">
-				<td>{{ student.id }}</td>
-				<td>{{ student.name }}</td>
-				<td>{{ student.email }}</td>
-				<td>{{ student.birthday }}</td>
-				<td>
-					<a href="#/students/edit/{{ student.id }}">[ Edit ]</a>
-					<a href="#/students/delete/{{ student.id }}">[ Delete ]</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<md-subheader class="md-primary">
+	<md-input-container>
+		<label>Keyword</label>
+		<input name="keyword" ng-model="keyword" />
+	</md-input-container>
+</md-subheader>
+<md-grid-list md-cols-gt-md="6" md-row-height-gt-md="1:1" class="student-list">
+	<md-grid-tile md-rowspan="2" class="student" md-colspan="2" data-ng-repeat="student in students | filter:keyword">
+		<p>
+			<img src="assets/imgs/profile/{{ student.image }}" />
+		</p>
+		<md-grid-tile-footer>
+			<h3>
+				<md-button class="md-primary md-raised" href="#/edit/{{ student.id }}"> {{ student.name }} </md-button>
+			</h3>
+		</md-grid-tile-footer>
+	</md-grid-tile>
+</md-grid-list>

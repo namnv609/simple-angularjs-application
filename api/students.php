@@ -40,6 +40,25 @@ class StudentManagement {
 	}
 
 	/**
+	* Get student by ID
+	* @param int $studentID Student ID
+	* @return array Student info
+	*/
+	public function getStudent($studentID = 0)
+	{
+		$sqlStatement = "SELECT * FROM $this->tableName WHERE id = {$studentID} LIMIT 1";
+		$student = [];
+
+		$queryStatement = mysql_query($sqlStatement);
+
+		if (mysql_num_rows($queryStatement) > 0) {
+			$student = mysql_fetch_assoc($queryStatement);
+		}
+
+		return $student;
+	}
+
+	/**
 	* Save student info
 	* @param array $student Student info
 	* @return boolean Update/Insert status
@@ -47,21 +66,25 @@ class StudentManagement {
 	public function saveStudent($student)
 	{
 		if (is_array($student)) {
+			$studentID = (isset($student['id']) ? $student['id'] : 0);
 			unset($student['id']);
 
-			$fields = array_keys($student);
-			$values = array_values($student);
-			$sqlStatement = "INSERT INTO $this->tableName(" . implode(",", $fields) . ") VALUES('" . implode("', '", $values) . "')";
+			$sqlStatement = "UPDATE $this->tableName SET ";
+			foreach ($student as $field => $value) {
+				$sqlStatement .= "{$field} = '$value',";
+			}
+			$sqlStatement = trim($sqlStatement, ",") . " WHERE id = {$studentID}";
 
-			// if (isset($student['id']) && $student['id'] != null && $student['id'] > 0 && $student['id'] != '') {
-			// 	$sqlStatement = "UPDATE $this->tableName
-			// 					SET";
-			// }
+			if ($studentID === 0) {
+				$fields = array_keys($student);
+				$values = array_values($student);
+				
+				$sqlStatement = "INSERT INTO $this->tableName(" . implode(",", $fields) . ") VALUES('" . implode("', '", $values) . "')";
+			}
 
-			// return $sqlStatement;
 			$query = mysql_query($sqlStatement);
-
 			return $query;
+			// return $sqlStatement;
 		}
 
 		return false;
@@ -75,10 +98,31 @@ $studentManagement = new StudentManagement();
 if ($reqMethod === "POST") {
 	if ($action === "save") {
 		$student = json_decode(file_get_contents("php://input"), true);
-		$saveStudent = $studentManagement->saveStudent($student);
+		$message = ['status' => false];
 
-		echo json_encode($saveStudent);
+		if (count($student) >= 5 && $studentManagement->saveStudent($student)) {
+			$message = [
+				'status' => true,
+				'message' => 'Save student successfull'
+			];
+
+			if (isset($student['id'])) {
+				$message['action'] = 'update';
+			}
+		}
+
+		echo json_encode($message);
+		// echo $studentManagement->saveStudent($student);
 	}
+} else if ($action === "student") {
+	$studentID = (isset($_GET['id']) ? $_GET['id'] : 0);
+	$student = [];
+
+	if ($studentID > 0) {
+		$student = $studentManagement->getStudent($studentID);
+	}
+
+	echo json_encode($student);
 } else {
 	echo json_encode($studentManagement->getStudents());
 }
