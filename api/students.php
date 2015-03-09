@@ -84,7 +84,6 @@ class StudentManagement {
 
 			$query = mysql_query($sqlStatement);
 			return $query;
-			// return $sqlStatement;
 		}
 
 		return false;
@@ -112,7 +111,6 @@ if ($reqMethod === "POST") {
 		}
 
 		echo json_encode($message);
-		// echo $studentManagement->saveStudent($student);
 	}
 } else if ($action === "student") {
 	$studentID = (isset($_GET['id']) ? $_GET['id'] : 0);
