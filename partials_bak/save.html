@@ -1,39 +1,39 @@
 <div data-ng-controller="IndexController">
-	<form name="studentForm" autocomplete="off" novalidate="novalidate" data-ng-submit="saveStudent()">
-		<input type="hidden" name="id" data-ng-model="student.id" ng-init="student.id=( studentInfo.id | default:0 )" data-ng-hidden-field />
-		<table>
-			<tr>
-				<td>
-					<label for="name">Name</label>
-					<td>
-						<input type="text" name="name" id="name" data-ng-model="student.name" value="{{ data | default:1 }}" />
-						<p data-ng-show="studentForm.name.$error.required">Name is required</p>
-					</td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="email">Email</label>
-					<td>
-						<input type="text" name="email" id="email" data-ng-model="student.email" value="{{ std.email | default:0 }}" />
-						<p data-ng-show="studentForm.name.$error.required">Email is required</p>
-					</td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="birthday">Birthday</label>
-					<td><input type="text" name="birthday" id="birthday" data-ng-model="student.birthday" /></td>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="">&nbsp;</label>
-					<td>
-						<button type="submit">Submit</button>
-					</td>
-				</td>
-			</tr>
-		</table>
-	</form>
+    <form name="studentForm" autocomplete="off" novalidate="novalidate" data-ng-submit="saveStudent()">
+        <input type="hidden" name="id" data-ng-model="student.id" ng-init="student.id=( studentInfo.id | default:0 )" data-ng-hidden-field />
+        <table>
+            <tr>
+                <td>
+                    <label for="name">Name</label>
+                    <td>
+                        <input type="text" name="name" id="name" data-ng-model="student.name" value="{{ data | default:1 }}" />
+                        <p data-ng-show="studentForm.name.$error.required">Name is required</p>
+                    </td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="email">Email</label>
+                    <td>
+                        <input type="text" name="email" id="email" data-ng-model="student.email" value="{{ std.email | default:0 }}" />
+                        <p data-ng-show="studentForm.name.$error.required">Email is required</p>
+                    </td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="birthday">Birthday</label>
+                    <td><input type="text" name="birthday" id="birthday" data-ng-model="student.birthday" /></td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">&nbsp;</label>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>

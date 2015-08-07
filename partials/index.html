@@ -1,18 +1,18 @@
 <md-subheader class="md-primary">
-	<md-input-container>
-		<label>Keyword</label>
-		<input name="keyword" ng-model="keyword" />
-	</md-input-container>
+    <md-input-container>
+        <label>Keyword</label>
+        <input name="keyword" ng-model="keyword" />
+    </md-input-container>
 </md-subheader>
 <md-grid-list md-cols-gt-md="6" md-row-height-gt-md="1:1" class="student-list">
-	<md-grid-tile md-rowspan="2" class="student" md-colspan="2" data-ng-repeat="student in students | filter:keyword">
-		<p>
-			<img src="assets/imgs/profile/{{ student.image }}" />
-		</p>
-		<md-grid-tile-footer>
-			<h3>
-				<md-button class="md-primary md-raised" href="#/edit/{{ student.id }}"> {{ student.name }} </md-button>
-			</h3>
-		</md-grid-tile-footer>
-	</md-grid-tile>
+    <md-grid-tile md-rowspan="2" class="student" md-colspan="2" data-ng-repeat="student in students | filter:keyword">
+        <p>
+            <img src="assets/imgs/profile/{{ student.image }}" />
+        </p>
+        <md-grid-tile-footer>
+            <h3>
+                <md-button class="md-primary md-raised" href="#/edit/{{ student.id }}"> {{ student.name }} </md-button>
+            </h3>
+        </md-grid-tile-footer>
+    </md-grid-tile>
 </md-grid-list>

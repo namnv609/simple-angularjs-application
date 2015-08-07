@@ -3,3 +3,5 @@
 * Create database
 * Import file students.sql to database
 * Edit config in **api/students.php**
+
+### [Online demo](http://angularjs.namnv609.cf)
